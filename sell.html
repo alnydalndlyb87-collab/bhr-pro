@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BHR PRO - نسخة البيع</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma}body{margin:0;min-height:100vh;padding:12px;color:#fff;background:linear-gradient(160deg,#020617 0%,#0f172a 30%,#1e3a8a 60%,#0f172a 100%);background-attachment:fixed}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(59,130,246,.35),transparent 40%),radial-gradient(circle at 90% 90%,rgba(16,185,129,.25),transparent 40%);pointer-events:none;z-index:0}
+body>*{position:relative;z-index:1}
+.top{background:linear-gradient(90deg,#1d4ed8,#0ea5e9);border-radius:20px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.4);margin-bottom:12px;border:1px solid rgba(255,255,255,.2)}
+.card{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:12px;margin-bottom:12px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.white{background:#ffffff;color:#111;border-radius:20px;padding:14px;margin-bottom:12px;box-shadow:0 10px 25px rgba(0,0,0,.35);border-top:4px solid #2563eb}
+button{border:0;border-radius:14px;padding:13px;width:100%;font-weight:bold;cursor:pointer;margin-top:7px;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+input,select,textarea{width:100%;padding:13px;border-radius:14px;border:1px solid #cbd5e1;margin-top:7px;background:#f8fafc;font-size:15px}
+.searchBox{background:#fff;color:#111;border:3px solid #facc15}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tabs button{width:auto;flex:1;background:rgba(255,255,255,.12);color:#fff;font-size:13px;border:1px solid rgba(255,255,255,.15)}
+.tabs button.on{background:linear-gradient(90deg,#2563eb,#06b6d4);box-shadow:0 5px 15px rgba(37,99,235,.5)}
+.green{background:linear-gradient(90deg,#16a34a,#22c55e);color:#fff}.blue{background:linear-gradient(90deg,#2563eb,#3b82f6);color:#fff}.yellow{background:linear-gradient(90deg,#eab308,#facc15);color:#111}.red{background:linear-gradient(90deg,#dc2626,#ef4444);color:#fff}.purple{background:linear-gradient(90deg,#7c3aed,#a855f7);color:#fff}.orange{background:linear-gradient(90deg,#ea580c,#f97316);color:#fff}.teal{background:linear-gradient(90deg,#0d9488,#14b8a6);color:#fff}.pink{background:linear-gradient(90deg,#db2777,#ec4899);color:#fff}
+.row{display:flex;gap:7px}.row>*{flex:1}
+.item{background:#f1f5f9;color:#111;padding:10px;border-radius:14px;margin-top:8px;text-align:center;border:1px solid #e2e8f0}
+.big{font-size:23px;font-weight:900;text-align:center;line-height:1.5}
+.center{text-align:center}.small{font-size:12px;color:#e2e8f0;text-align:center}
+.calc{color:#fff;font-size:13px;text-align:center;margin-top:6px}
+.badge{display:inline-block;background:rgba(250,204,21,.2);color:#facc15;border:1px solid #facc15;padding:4px 10px;border-radius:20px;font-size:12px}
+.codeTag{background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:bold}
+table{width:100%;border-collapse:collapse;background:#fff;color:#111;border-radius:12px;overflow:hidden}th,td{padding:10px;border:1px solid #e2e8f0;text-align:center;font-size:13px}th{background:#0f172a;color:#fff}
+@media print{body{background:#fff;color:#000}.noPrint,.top{display:none!important}.white,.card{background:#fff;color:#000;border:1px solid #000}.calc{color:#000}}
+</style>
+</head>
+<body>
+<div id="lock" class="white center"><div style="font-size:40px">💼</div><h2 style="margin:5px 0">نظام محلك التقني</h2><p style="color:#2563eb;font-weight:900;margin:0">برؤية حديثة - BHR PRO</p><p style="font-size:13px;color:#666">نسخة مرخصة - 300 ريال سعودي</p><input id="code" placeholder="اكتب كود التفعيل مثلا BHR-0001"><button class="green" onclick="login()">✅ تفعيل ودخول</button><p style="font-size:12px;color:#888">للشراء تواصل واتساب واحصل على كودك الخاص</p></div>
+<div id="app" style="display:none">
+<div class="top"><div class="row"><div><h2 style="margin:0">💼 نظام محلك التقني</h2><p style="margin:2px 0;color:#facc15;font-weight:bold">برؤية حديثة ✨ BHR PRO</p><span class="badge" id="shopName"></span></div><button class="red" style="width:80px" onclick="logout()">🔒 قفل</button></div></div>
+<div class="card"><div class="tabs"><button class="on" onclick="showTab('debts',this)">👥 ديون الزبائن</button><button onclick="showTab('mydebts',this)">📝 ديون علي</button><button onclick="showTab('stock',this)">📦 البضاعة</button><button onclick="showTab('invoices',this)">🧾 فواتير</button><button onclick="showTab('statement',this)">📄 كشف حساب</button><button onclick="showTab('inventory',this)">📊 الجرد</button></div>
+<div class="row noPrint" style="margin-top:8px"><button class="yellow" onclick="exportData()">📤 تصدير</button><button class="white" style="border:0" onclick="document.getElementById('file').click()">📥 استيراد</button><button class="teal" onclick="window.print()">🖨️ طباعة الكل</button></div><input type="file" id="file" hidden onchange="importData(event)"></div>
+<div id="tab-debts"><div class="card"><input id="searchCust" class="searchBox" placeholder="🔍 ابحث عن زبون بالاسم..." oninput="render()"><input id="custName" placeholder="اسم الزبون"><button class="green" onclick="addPerson('cust')">+ إضافة خانه جديدة له</button></div><div id="custList"></div></div>
+<div id="tab-mydebts" style="display:none"><div class="card"><input id="searchSup" class="searchBox" placeholder="🔍 ابحث عن اسم اللي انت مدين له..." oninput="render()"><input id="supName" placeholder="اسم اللي انا مدين له"><button class="green" onclick="addPerson('sup')">+ إضافة خانه جديدة</button></div><div id="supList"></div></div>
+<div id="tab-stock" style="display:none"><div class="card"><h3 style="margin:0">📦 إضافة بضاعة</h3><input id="pCode" placeholder="رقم الصنف - مثال: 101"><input id="pName" placeholder="اسم البضاعة"><input id="pQty" type="number" placeholder="الكمية"><input id="pPrice" type="number" placeholder="سعر البيع"><input id="pBuy" type="number" placeholder="سعر الشراء"><button class="blue" onclick="addProduct()">+ إضافة بضاعة</button></div>
+<div class="card"><h3 style="margin:0">🔍 البحث عن البضاعة</h3><input id="searchProd" class="searchBox" placeholder="🔍 اكتب اسم البضاعة او رقم الصنف... مثال: رز او 101" oninput="render()"></div><div id="prodList"></div></div>
+<div id="tab-invoices" style="display:none">
+<div class="card"><h3 style="margin:0">🧾 فاتورة بيع</h3><input id="searchInvProd" class="searchBox" placeholder="🔍 ابحث عن بضاعة للبيع..." oninput="filterInvProd()"><select id="invCust"></select><select id="invProd"></select><input id="invQty" type="number" value="1"><select id="invType"><option value="cash">كاش</option><option value="debt">دين - على الزبون</option></select><div class="row"><button class="teal" onclick="saveOnly()">💾 حفظ فقط</button><button class="green" onclick="addInvoice()">💾 حفظ + 🖨️ طباعة</button></div></div>
+<div class="card"><h3 style="margin:0">🛒 فاتورة شراء</h3><select id="buySup"></select><select id="buyProd"></select><input id="buyQty" type="number" value="1"><select id="buyType"><option value="cash">كاش - دفعت الآن</option><option value="debt">دين - علي للمورد</option></select><div class="row"><button class="teal" onclick="saveBuyOnly()">💾 حفظ فقط</button><button class="blue" onclick="addBuyInvoice()">💾 حفظ + 🖨️ طباعة</button></div></div>
+<div class="card"><h3 style="margin:0">🧾 سند قبض</h3><input id="rName" placeholder="1 - الاسم"><div class="row"><input id="rAmount" type="number" placeholder="2 - المبلغ"><select id="rCurr"><option>ريال سعودي</option><option>ريال يمني</option><option>دولار</option></select></div><input id="rFor" placeholder="3 - مقابل ايش ؟"><input id="rNote" placeholder="4 - ملاحظة - اختياري"><div class="row"><button class="teal" onclick="saveReceiptOnly()">💾 حفظ فقط</button><button class="orange" onclick="addReceipt()">💾 حفظ + 🖨️ طباعة</button></div></div>
+<div id="invList"></div><div id="receiptList"></div></div>
+<div id="tab-statement" style="display:none">
+<div class="card"><h3 style="margin:0">📄 كشف حساب</h3><p class="small">اختر الشخص ويطلع لك كل حركاته</p>
+<select id="stType" onchange="renderStatement()"><option value="cust">زبون - ديون الزبائن</option><option value="sup">مورد - ديون علي</option></select>
+<select id="stPerson" onchange="renderStatement()"></select>
+<div class="row"><button class="teal" onclick="save()">💾 حفظ</button><button class="pink" onclick="window.print()">🖨️ طباعة كشف الحساب</button></div></div>
+<div id="statementBox"></div>
+</div>
+<div id="tab-inventory" style="display:none"><div class="card"><h3>📊 الجرد</h3><p>قيمة البضاعة بيع: <b id="stockSell">0</b></p><p>قيمة البضاعة شراء: <b id="stockBuy">0</b></p><p>الربح المتوقع: <b id="stockProfit">0</b></p><p>ديون الزبائن: <b id="totalCust">0</b></p><p>ديوني علي: <b id="totalSup">0</b></p><p>الفواتير: <b id="totalInv">0</b></p><p>سندات القبض: <b id="totalReceipt">0</b></p><div class="row"><button class="teal" onclick="save()">💾 حفظ الجرد</button><button class="blue noPrint" onclick="window.print()">🖨️ طباعة الجرد</button></div></div><div id="invReport"></div></div>
+</div>
+<script>
+let codes={};
+for(let i=1;i<=100;i++){let n=String(i).padStart(4,"0");codes["BHR-"+n]="محل "+n;}
+function getKey(){return "bhr_pro_"+localStorage.getItem("bhr_code");}
+let data=JSON.parse(localStorage.getItem(getKey())||'{"cust":[],"sup":[],"prod":[],"inv":[],"receipt":[]}');
+if(!data.receipt) data.receipt=[];
+function save(){localStorage.setItem(getKey(),JSON.stringify(data));render();alert("✅ تم الحفظ");}
+function saveSilent(){localStorage.setItem(getKey(),JSON.stringify(data));render();}
+function login(){let c=document.getElementById("code").value.trim().toUpperCase();if(codes[c]){localStorage.setItem("bhr_code",c);localStorage.setItem("bhr_shop",codes[c]);data=JSON.parse(localStorage.getItem(getKey())||'{"cust":[],"sup":[],"prod":[],"inv":[],"receipt":[]}');showApp();}else alert("الكود غلط - تأكد من الكود او تواصل للشراء");}
+function showApp(){document.getElementById("lock").style.display="none";document.getElementById("app").style.display="block";document.getElementById("shopName").innerText="مرخص لـ: "+localStorage.getItem("bhr_shop")+" | "+localStorage.getItem("bhr_code");render();}
+function logout(){localStorage.removeItem("bhr_code");location.reload();}
+if(localStorage.getItem("bhr_code") && codes[localStorage.getItem("bhr_code")]){data=JSON.parse(localStorage.getItem(getKey())||'{"cust":[],"sup":[],"prod":[],"inv":[],"receipt":[]}');showApp();}
+function showTab(id,btn){document.querySelectorAll('[id^="tab-"]').forEach(e=>e.style.display="none");document.getElementById("tab-"+id).style.display="block";document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("on"));btn.classList.add("on");if(id=="statement") renderStatement();}
+function addPerson(type){let inp=type=='cust'?document.getElementById("custName"):document.getElementById("supName");if(!inp.value.trim()) return alert("اكتب الاسم");data[type].push({name:inp.value,inv:0,paid:0});inp.value="";saveSilent();}
+function addMoney(type,i,kind){let v=parseFloat(prompt(kind=="inv"?"كم مبلغ الدين؟":"كم مبلغ السداد؟")||0);if(v>0){data[type][i][kind]+=v;saveSilent();}}
+function editAll(type,i){let c=data[type][i];let n=prompt("تعديل الاسم",c.name);if(n!=null) c.name=n;let a=parseFloat(prompt("تعديل مبلغ الفواتير / عليه",c.inv));if(!isNaN(a)) c.inv=a;let b=parseFloat(prompt("تعديل مبلغ المدفوع / دفعت",c.paid));if(!isNaN(b)) c.paid=b;saveSilent();}
+function delPerson(type,i){if(confirm("حذف؟")){data[type].splice(i,1);saveSilent();}}
+function addProduct(){let code=document.getElementById("pCode").value||"—";let n=document.getElementById("pName").value,q=+document.getElementById("pQty").value,p=+document.getElementById("pPrice").value,b=+document.getElementById("pBuy").value;if(!n||!q) return alert("اكمل البيانات");data.prod.push({code:code,name:n,qty:q,price:p,buy:b});document.getElementById("pCode").value="";document.getElementById("pName").value="";saveSilent();}
+function editProd(i){let p=data.prod[i];let cd=prompt("تعديل رقم الصنف",p.code||"");if(cd!=null) p.code=cd;let n=prompt("تعديل اسم البضاعة",p.name);if(n!=null) p.name=n;let q=parseFloat(prompt("تعديل الكمية",p.qty));if(!isNaN(q)) p.qty=q;let pr=parseFloat(prompt("تعديل سعر البيع",p.price));if(!isNaN(pr)) p.price=pr;let by=parseFloat(prompt("تعديل سعر الشراء",p.buy));if(!isNaN(by)) p.buy=by;saveSilent();}
+function delProd(i){data.prod.splice(i,1);saveSilent();}
+function doSell(printIt){let ci=document.getElementById("invCust").value,pi=document.getElementById("invProd").value,q=+document.getElementById("invQty").value,t=document.getElementById("invType").value;if(ci==""||pi=="") return alert("اختر الزبون والبضاعة");let pr=data.prod[pi];if(pr.qty<q) return alert("الكمية غير متوفرة");pr.qty-=q;let total=q*pr.price;data.inv.push({kind:"بيع",cust:data.cust[ci]?.name||"زبون",prod:pr.name,code:pr.code||"",qty:q,total:total,type:t,date:new Date().toLocaleString("ar")});if(t=="debt"&&data.cust[ci]) data.cust[ci].inv+=total;saveSilent();if(printIt) window.print();else alert("✅ تم حفظ فاتورة البيع");}
+function addInvoice(){doSell(true)} function saveOnly(){doSell(false)}
+function doBuy(printIt){let si=document.getElementById("buySup").value,pi=document.getElementById("buyProd").value,q=+document.getElementById("buyQty").value,t=document.getElementById("buyType").value;if(si==""||pi=="") return alert("اختر المورد والبضاعة");let pr=data.prod[pi];pr.qty+=q;let total=q*(pr.buy||pr.price);data.inv.push({kind:"شراء",cust:data.sup[si]?.name||"مورد",prod:pr.name,code:pr.code||"",qty:q,total:total,type:t,date:new Date().toLocaleString("ar")});if(t=="debt"&&data.sup[si]) data.sup[si].inv+=total;saveSilent();if(printIt) window.print();else alert("✅ تم حفظ فاتورة الشراء");}
+function addBuyInvoice(){doBuy(true)} function saveBuyOnly(){doBuy(false)}
+function doReceipt(printIt){let n=document.getElementById("rName").value,a=+document.getElementById("rAmount").value,c=document.getElementById("rCurr").value,f=document.getElementById("rFor").value,nt=document.getElementById("rNote").value;if(!n||!a||!f) return alert("اكمل الاسم والمبلغ ومقابل ايش");data.receipt.push({name:n,amount:a,curr:c,for:f,note:nt,date:new Date().toLocaleString("ar")});document.getElementById("rName").value="";document.getElementById("rAmount").value="";document.getElementById("rFor").value="";document.getElementById("rNote").value="";saveSilent();if(printIt) window.print();else alert("✅ تم حفظ سند القبض");}
+function addReceipt(){doReceipt(true)} function saveReceiptOnly(){doReceipt(false)}
+function editInv(i){let x=data.inv[i];let q=parseFloat(prompt("تعديل كمية الفاتورة",x.qty));if(!isNaN(q)) x.qty=q;let t=parseFloat(prompt("تعديل اجمالي الفاتورة",x.total));if(!isNaN(t)) x.total=t;saveSilent();}
+function delInv(i){data.inv.splice(i,1);saveSilent();}
+function delReceipt(i){data.receipt.splice(i,1);saveSilent();}
+function filterInvProd(){let q=(document.getElementById("searchInvProd").value||"").toLowerCase();let sp=document.getElementById("invProd");sp.innerHTML="";data.prod.forEach((p,i)=>{if(p.name.toLowerCase().includes(q)||(p.code+"").toLowerCase().includes(q)) sp.innerHTML+=`<option value="${i}">[${p.code||"-"}] ${p.name} - ${p.price} ريال - متبقي ${p.qty}</option>`;});}
+function openStatement(type,i){showTab('statement',document.querySelectorAll(".tabs button")[4]);document.getElementById("stType").value=type;renderStatement();document.getElementById("stPerson").value=i;renderStatement();}
+function renderStatement(){
+let type=document.getElementById("stType").value;let sel=document.getElementById("stPerson");let list=data[type];
+sel.innerHTML="";list.forEach((p,i)=>sel.innerHTML+=`<option value="${i}">${p.name}</option>`);
+if(list.length==0){document.getElementById("statementBox").innerHTML=`<div class="white center">لا يوجد أسماء بعد</div>`;return;}
+let idx=sel.value||0;let person=list[idx];if(!person) return;
+let bal=person.inv-person.paid;
+let big=type=="cust"?(bal>0?`باقي عليه ${Math.abs(bal)} ريال - هو مدين لي`:bal<0?`باقي لي له ${Math.abs(bal)} ريال - أنا مدين له`:`تم السداد ✅`):(bal>0?`باقي علي ${Math.abs(bal)} ريال - أنا مدين له`:bal<0?`باقي لي عنده ${Math.abs(bal)} ريال - هو مدين لي`:`تم السداد ✅`);
+let invs=data.inv.filter(x=>x.cust==person.name);
+let recs=data.receipt.filter(r=>r.name==person.name);
+let html=`<div class="white"><h2 style="margin:0">📄 كشف حساب - ${person.name}</h2><p style="color:#666">نظام محلك التقني برؤية حديثة - BHR PRO | التاريخ: ${new Date().toLocaleString("ar")}</p>
+<div class="row"><div class="item">عليه / الفواتير<br><b>${person.inv}</b></div><div class="item">دفعت / المدفوع<br><b>${person.paid}</b></div><div class="item">الباقي<br><b>${big}</b></div></div>
+<h3>🧾 الفواتير</h3><table><tr><th>النوع</th><th>البضاعة</th><th>الكمية</th><th>المبلغ</th><th>التاريخ</th></tr>`;
+if(invs.length==0) html+=`<tr><td colspan="5">لا توجد فواتير</td></tr>`;else invs.forEach(x=>html+=`<tr><td>${x.kind} - ${x.type=="debt"?"دين":"كاش"}</td><td>[${x.code}] ${x.prod}</td><td>${x.qty}</td><td>${x.total}</td><td>${x.date}</td></tr>`);
+html+=`</table><h3>🧾 سندات القبض</h3><table><tr><th>المبلغ</th><th>العملة</th><th>مقابل</th><th>ملاحظة</th><th>التاريخ</th></tr>`;
+if(recs.length==0) html+=`<tr><td colspan="5">لا توجد سندات</td></tr>`;else recs.forEach(r=>html+=`<tr><td>${r.amount}</td><td>${r.curr}</td><td>${r.for}</td><td>${r.note||"-"}</td><td>${r.date}</td></tr>`);
+html+=`</table><div class="card" style="background:#0f172a;color:#fff;margin-top:12px"><div class="big" style="color:${bal>0?(type=="cust"?"#4ade80":"#f87171"):(type=="cust"?"#f87171":"#4ade80")}">${big}</div><p class="calc">عليه ${person.inv} - دفعت ${person.paid} = ${bal}</p></div><div class="row"><button class="teal" onclick="save()">💾 حفظ الكشف</button><button class="pink" onclick="window.print()">🖨️ طباعة كشف الحساب</button></div></div>`;
+document.getElementById("statementBox").innerHTML=html;
+}
+function render(){
+let qCust=(document.getElementById("searchCust")?.value||"").toLowerCase();
+let qSup=(document.getElementById("searchSup")?.value||"").toLowerCase();
+let qProd=(document.getElementById("searchProd")?.value||"").toLowerCase();
+let cl=document.getElementById("custList");cl.innerHTML="";data.cust.forEach((c,i)=>{if(qCust && !c.name.toLowerCase().includes(qCust)) return;let bal=c.inv-c.paid;let big=bal>0?`باقي عليه ${Math.abs(bal)} ريال`:bal<0?`باقي لي له ${Math.abs(bal)} ريال - أنا مدين له`:`تم السداد ✅ - لا لي ولا له`;let sub=bal>0?`${c.name} مدين لي`:bal<0?`أنا مدين لـ ${c.name}`:`متعادل`;let col=bal>0?"#4ade80":bal<0?"#f87171":"#fff";cl.innerHTML+=`<div class="white"><div class="row"><b>👤 ${c.name}</b><button class="purple" style="width:130px" onclick="editAll('cust',${i})">✏️ تعديل كل شي</button></div><div class="row"><div class="item">الفواتير:<br><b>${c.inv}</b></div><div class="item">المدفوع:<br><b>${c.paid}</b></div></div><div class="card" style="background:#0f172a"><div class="big" style="color:${col}">${big}</div><div class="calc">${sub} | الفواتير ${c.inv} - المدفوع ${c.paid} = ${bal}</div></div><div class="row"><button class="blue" onclick="addMoney('cust',${i},'inv')">+ دين / فاتورة</button><button class="green" onclick="addMoney('cust',${i},'paid')">+ دفع / سداد</button></div><div class="row"><button class="pink" onclick="openStatement('cust',${i})">📄 كشف حساب</button><button class="teal" onclick="save()">💾 حفظ</button></div><div class="row"><button class="blue" onclick="window.print()">🖨️ طباعة</button><button class="red" onclick="delPerson('cust',${i})">حذف</button></div></div>`;});
+let sl=document.getElementById("supList");sl.innerHTML="";data.sup.forEach((c,i)=>{if(qSup && !c.name.toLowerCase().includes(qSup)) return;let bal=c.inv-c.paid;let big=bal>0?`باقي علي ${Math.abs(bal)} ريال - أنا مدين له`:bal<0?`باقي لي عنده ${Math.abs(bal)} ريال - هو مدين لي`:`تم السداد ✅ - لا لي ولا له`;let sub=bal>0?`أنا مدين لـ ${c.name}`:bal<0?`${c.name} مدين لي`:`متعادل`;let col=bal>0?"#f87171":bal<0?"#4ade80":"#fff";sl.innerHTML+=`<div class="white"><div class="row"><b>👤 ${c.name}</b><button class="purple" style="width:130px" onclick="editAll('sup',${i})">✏️ تعديل كل شي</button></div><div class="row"><div class="item">علي:<br><b>${c.inv}</b></div><div class="item">دفعت:<br><b>${c.paid}</b></div></div><div class="card" style="background:#0f172a"><div class="big" style="color:${col}">${big}</div><div class="calc">${sub} | علي ${c.inv} - دفعت ${c.paid} = ${bal}</div></div><div class="row"><button class="blue" onclick="addMoney('sup',${i},'inv')">+ دين علي</button><button class="green" onclick="addMoney('sup',${i},'paid')">+ سددت له</button></div><div class="row"><button class="pink" onclick="openStatement('sup',${i})">📄 كشف حساب</button><button class="teal" onclick="save()">💾 حفظ</button></div><div class="row"><button class="blue" onclick="window.print()">🖨️ طباعة</button><button class="red" onclick="delPerson('sup',${i})">حذف</button></div></div>`;});
+let pl=document.getElementById("prodList");pl.innerHTML="";data.prod.forEach((p,i)=>{if(qProd && !p.name.toLowerCase().includes(qProd) && !(p.code+"").toLowerCase().includes(qProd)) return;pl.innerHTML+=`<div class="white"><div><span class="codeTag">رقم الصنف: ${p.code||"—"}</span> <b>📦 ${p.name}</b></div><div style="margin-top:6px;font-size:16px">💰 سعر البيع: <b style="color:#16a34a">${p.price} ريال</b> | سعر الشراء: ${p.buy} | الكمية: ${p.qty}</div><div class="row"><button class="purple" onclick="editProd(${i})">✏️ تعديل كل شي</button><button class="teal" onclick="save()">💾 حفظ</button></div><div class="row"><button class="blue" onclick="window.print()">🖨️ طباعة البضاعة</button><button class="red" onclick="delProd(${i})">حذف</button></div></div>`;});
+let sc=document.getElementById("invCust");let curCust=sc.value;sc.innerHTML="";data.cust.forEach((c,i)=>sc.innerHTML+=`<option value="${i}">${c.name}</option>`);if(curCust) sc.value=curCust;
+let sp=document.getElementById("invProd");if(!document.getElementById("searchInvProd").value){sp.innerHTML="";data.prod.forEach((p,i)=>sp.innerHTML+=`<option value="${i}">[${p.code||"-"}] ${p.name} - ${p.price} ريال - متبقي ${p.qty}</option>`);}
+let bs=document.getElementById("buySup");bs.innerHTML="";data.sup.forEach((c,i)=>bs.innerHTML+=`<option value="${i}">${c.name}</option>`);
+let bp=document.getElementById("buyProd");bp.innerHTML="";data.prod.forEach((p,i)=>bp.innerHTML+=`<option value="${i}">[${p.code||"-"}] ${p.name} - شراء ${p.buy} - متبقي ${p.qty}</option>`);
+let il=document.getElementById("invList");il.innerHTML="";data.inv.forEach((x,i)=>{il.innerHTML+=`<div class="white">${x.kind=="شراء"?"🛒 فاتورة شراء":"🧾 فاتورة بيع"} ${i+1} - ${x.cust} - [${x.code||"-"}] ${x.prod} × ${x.qty} = <b>${x.total} ريال</b> - ${x.type=="debt"?"دين":"كاش"} - ${x.date}<div class="row"><button class="purple" onclick="editInv(${i})">✏️ تعديل</button><button class="teal" onclick="save()">💾 حفظ</button></div><div class="row"><button class="blue" onclick="window.print()">🖨️ طباعة</button><button class="red" onclick="delInv(${i})">حذف</button></div></div>`;});
+let rl=document.getElementById("receiptList");rl.innerHTML="";data.receipt.forEach((r,i)=>{rl.innerHTML+=`<div class="white" style="border-top:4px solid #f97316">🧾 <b>سند قبض ${i+1}</b><br>الاسم: <b>${r.name}</b><br>المبلغ: <b>${r.amount} ${r.curr}</b><br>مقابل: <b>${r.for}</b><br>ملاحظة: ${r.note||"—"}<br><span style="color:#666;font-size:12px">${r.date}</span><div class="row"><button class="teal" onclick="save()">💾 حفظ</button><button class="blue" onclick="window.print()">🖨️ طباعة السند</button></div><button class="red" onclick="delReceipt(${i})">حذف</button></div>`;});
+let ss=data.prod.reduce((a,p)=>a+p.qty*p.price,0),sb=data.prod.reduce((a,p)=>a+p.qty*p.buy,0);
+document.getElementById("stockSell").innerText=ss;document.getElementById("stockBuy").innerText=sb;document.getElementById("stockProfit").innerText=ss-sb;
+document.getElementById("totalCust").innerText=data.cust.reduce((a,c)=>a+c.inv-c.paid,0);
+document.getElementById("totalSup").innerText=data.sup.reduce((a,c)=>a+c.inv-c.paid,0);
+document.getElementById("totalInv").innerText=data.inv.reduce((a,x)=>a+x.total,0);
+document.getElementById("totalReceipt").innerText=data.receipt.reduce((a,r)=>a+r.amount,0);
+document.getElementById("invReport").innerHTML=data.prod.map(p=>`<div class="white"><span class="codeTag">رقم الصنف: ${p.code||"-"}</span> ${p.name} - متبقي ${p.qty} - قيمة ${p.qty*p.price} ريال</div>`).join("");
+}
+function exportData(){let b=new Blob([JSON.stringify(data)],{type:"application/json"});let a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="BHR-backup.json";a.click();}
+function importData(e){let r=new FileReader();r.onload=()=>{data=JSON.parse(r.result);if(!data.receipt) data.receipt=[];saveSilent();};r.readAsText(e.target.files[0]);}
+render();
+</script>
+</body>
+                                                                                                       </html>
