@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BHR PRO - نسخة البيع</title>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
 <style>
 *{box-sizing:border-box;font-family:'Segoe UI',Tahoma}body{margin:0;min-height:100vh;padding:12px;color:#fff;background:linear-gradient(160deg,#020617 0%,#0f172a 30%,#1e3a8a 60%,#0f172a 100%);background-attachment:fixed}
 body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(59,130,246,.35),transparent 40%),radial-gradient(circle at 90% 90%,rgba(16,185,129,.25),transparent 40%);pointer-events:none;z-index:0}
@@ -137,6 +139,7 @@ function printSingleReceipt(i){let r=data.receipt[i];let person=data.cust.find(x
 function exportData(){let b=new Blob([JSON.stringify(data)],{type:"application/json"});let a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="BHR-backup.json";a.click();}
 function importData(e){let r=new FileReader();r.onload=()=>{data=JSON.parse(r.result);if(!data.receipt) data.receipt=[];saveSilent();};r.readAsText(e.target.files[0]);}
 render();
-</script>
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
+</script 
 </body>
-                                                                                                                                                                                                                                                                                                  </html>
+                                                                                                                                                                                                                                                                                                </html>
